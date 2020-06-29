@@ -1,8 +1,8 @@
 # VideoPlayerFI
 
 Goal :
-
-  Frame Interpolation
+  - New Video Player
+  - Frame Interpolation integration
 
 
 Used :
