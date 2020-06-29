@@ -6,8 +6,8 @@ Goal :
 
 
 Used :
-  Libvlcpp --> https://github.com/videolan/libvlcpp
-  SFML     --> https://www.sfml-dev.org/
+ - Libvlcpp --> https://github.com/videolan/libvlcpp
+ - SFML     --> https://www.sfml-dev.org/
   
 How To :
 
