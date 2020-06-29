@@ -41,6 +41,10 @@ private:
 	float mouseVisibleTimer;
 	bool hudVisible;
 
+	float soundVisibleTimerMax;
+	float soundVisibleTimer;
+	bool soundVisible;
+
 	float fullscreenClickTimerMax;
 	float fullscreenClickTimer;
 	bool fullscreen;
@@ -57,6 +61,7 @@ public:
 	bool isRunning();
 
 	void pollEvents();
+	void updateVolumePercent();
 	void toggleFullscreen();
 
 	void updateMouseVisible();

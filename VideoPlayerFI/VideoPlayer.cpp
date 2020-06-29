@@ -1,11 +1,10 @@
 #include "VideoPlayer.h"
 
 
-
 void VideoPlayer::initVariables()
 {
 	this->keyPressed = false;
-	this->volume = 0;
+	this->volume = 35;
 	this->fullscreenClickTimerMax = 30.f;
 	this->fullscreenClickTimer = this->fullscreenClickTimerMax;
 	this->fullscreen = false;
@@ -13,6 +12,10 @@ void VideoPlayer::initVariables()
 	this->mouseVisibleTimerMax = 150.f;
 	this->mouseVisibleTimer = 0.f;
 	this->hudVisible = true;
+
+	this->soundVisibleTimerMax = 150.f;
+	this->soundVisibleTimer = 0.f;
+	this->soundVisible = true;
 }
 
 void VideoPlayer::initWindow()
@@ -151,36 +154,52 @@ void VideoPlayer::pollEvents()
 					if (desc[i].id() == this->mp->audioTrack())
 						this->actualAudioTrack = i;
 
-
 				if (this->actualAudioTrack + 1 < this->mp->audioTrackCount())
 					this->mp->setAudioTrack(desc[this->actualAudioTrack + 1].id());
 				else
 					this->mp->setAudioTrack(desc[1].id());
 			}
 			break;
-			//------------------------------------------------//
-			//------------------------------------------------//
+
 		case sf::Event::MouseWheelScrolled:
-			if (this->SFMLEvent.mouseWheelScroll.delta > 0)
-			{
-				this->volume += 5;
-				if (this->volume > 100)
-					this->volume = 100;
-				this->mp->setVolume(this->volume);
-			}
-			else
-			{
-				this->volume -= 5;
-				if (this->volume < 0)
-					this->volume = 0;
-				this->mp->setVolume(this->volume);
-			}
+				if (this->SFMLEvent.mouseWheelScroll.delta > 0)
+				{
+					this->volume += 5;
+					if (this->volume > 100)
+						this->volume = 100;
+					this->mp->setVolume(this->volume);
+				}
+				else
+				{
+					this->volume -= 5;
+					if (this->volume < 0)
+						this->volume = 0;
+					this->mp->setVolume(this->volume);
+				}
+				this->soundVisibleTimer = 0.f;
 			break;
+		case sf::Event::MouseMoved:
+				this->mouseVisibleTimer = 0.f;
+				this->hudVisible = true;
+				break;
 			//------------------------------------------------//
 			//------------------------------------------------//
 		default:
 			break;
 		}
+	}
+}
+
+void VideoPlayer::updateVolumePercent()
+{
+	if (this->soundVisibleTimer < this->soundVisibleTimerMax)
+	{
+		this->soundVisibleTimer++;
+		this->soundVisible = true;
+	}
+	else
+	{
+		this->soundVisible = false;
 	}
 }
 
@@ -209,26 +228,15 @@ void VideoPlayer::toggleFullscreen()
 
 void VideoPlayer::updateMouseVisible()
 {
-	while (this->window->pollEvent(this->SFMLEvent))
-	{
-		if (this->SFMLEvent.type == sf::Event::MouseMoved)
-		{
-			this->mouseVisibleTimer = 0.f;
-			this->hudVisible = true;
-			this->window->setMouseCursorVisible(this->hudVisible);
-		}
-	}
-	this->mouseVisibleTimer++;
+	if(this->mouseVisibleTimer < this->mouseVisibleTimerMax)
+		this->mouseVisibleTimer++;
 
 	if (this->hudVisible)
-	{
 		if (this->mouseVisibleTimer >= this->mouseVisibleTimerMax)
-		{
 			this->hudVisible = false;
-			this->window->setMouseCursorVisible(this->hudVisible);
-		}
-	}
 
+
+	this->window->setMouseCursorVisible(this->hudVisible);
 }
 
 void VideoPlayer::updateInputFullscreen()
@@ -256,19 +264,19 @@ void VideoPlayer::updateInputFullscreen()
 void VideoPlayer::update()
 {
 	this->pollEvents();
+
 	this->updateInputFullscreen();
 
 
 	this->texture.update(this->e_frame);
 
+	this->updateVolumePercent();
 	this->updateMouseVisible();
 
-	this->HUD->update(this->window, this->mp, this->mp->time());
+	this->HUD->update(this->window, this->mp, this->mp->time(), this->volume);
 
 	if (this->mp->time() + 1000 >= this->media->duration())
 		this->window->close();
-
-
 }
 
 void VideoPlayer::render()
@@ -276,7 +284,7 @@ void VideoPlayer::render()
 	this->window->clear();
 
 	this->window->draw(this->sprite);
-	this->HUD->render(this->window, this->hudVisible);
+	this->HUD->render(this->window, this->hudVisible, this->soundVisible);
 
 	this->window->display();
 

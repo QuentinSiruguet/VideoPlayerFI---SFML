@@ -68,9 +68,20 @@ void PlayerHUD::initText()
 	this->textCurrentTime.setFont(*this->font);
 	this->textCurrentTime.setCharacterSize(15);
 	this->textCurrentTime.setFillColor(sf::Color::White);
+	this->textCurrentTime.setOutlineColor(sf::Color::Black);
+	this->textCurrentTime.setOutlineThickness(2);
+
 	this->textTimeLeft.setFont(*this->font);
 	this->textTimeLeft.setCharacterSize(15);
 	this->textTimeLeft.setFillColor(sf::Color::White);
+	this->textTimeLeft.setOutlineColor(sf::Color::Black);
+	this->textTimeLeft.setOutlineThickness(2);
+
+	this->volumePercentage.setFont(*this->font);
+	this->volumePercentage.setCharacterSize(25);
+	this->volumePercentage.setFillColor(sf::Color::White);
+	this->volumePercentage.setOutlineColor(sf::Color::Black);
+	this->volumePercentage.setOutlineThickness(2);
 }
 
 PlayerHUD::PlayerHUD(sf::RenderTarget* target, sf::Font* font, float movieSize) : movieSize(movieSize), font(font)
@@ -108,6 +119,15 @@ void PlayerHUD::updateText(float current)
 	this->textTimeLeft.setPosition(this->barFrame.getPosition().x + this->barFrame.getSize().x + 10, this->barFrame.getPosition().y - 4);
 }
 
+void PlayerHUD::updateVolume(float volume)
+{
+	std::stringstream str;
+	str << volume << " %";
+	this->volumePercentage.setString(str.str());
+
+	this->volumePercentage.setPosition((this->barFrame.getPosition().x+this->barFrame.getSize().x/2), this->barFrame.getPosition().y - 30);
+}
+
 void PlayerHUD::updateBar(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current)
 {
 	if (barFrame.getGlobalBounds().contains(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
@@ -118,15 +138,16 @@ void PlayerHUD::updateBar(sf::RenderWindow* window, VLC::MediaPlayer* mp, float 
 	this->button.setPosition(this->bar.getPosition().x + this->bar.getSize().x, this->barFrame.getPosition().y);
 }
 
-void PlayerHUD::update(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current)
+void PlayerHUD::update(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current, float volume)
 {
+	this->updateVolume(volume);
 	this->updateBar(window, mp, current);
 	this->updateText(current);
 }
 
-void PlayerHUD::render(sf::RenderTarget* target, bool visible)
+void PlayerHUD::render(sf::RenderTarget* target, bool hudVisible, bool soundVisible)
 {
-	if (visible)
+	if (soundVisible || hudVisible)
 	{
 	//	target->draw(this->unclickableShape);
 		target->draw(this->barFrame);
@@ -134,6 +155,8 @@ void PlayerHUD::render(sf::RenderTarget* target, bool visible)
 		target->draw(this->button);
 		target->draw(this->textCurrentTime);
 		target->draw(this->textTimeLeft);
+		target->draw(this->volumePercentage);
 	}
+
 }
 

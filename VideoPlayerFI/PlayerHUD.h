@@ -17,11 +17,15 @@ private:
 	sf::Font* font;
 	sf::Text textCurrentTime;
 	sf::Text textTimeLeft;
+	sf::Text volumePercentage;
 
 	float movieSize;
 
 	bool mousePressed;
 	bool fullscreen;
+
+	float volumeTimer;
+	float volumeTimerMax;
 
 	std::string getCurrentTimeString(float current);
 	std::string getTimeLeftString(float current);
@@ -37,8 +41,10 @@ public:
 	sf::FloatRect getUnclickableGlobalBounds();
 
 	void updateText(float current);
+	void updateVolume(float volume);
 	void updateBar(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current);
-	void update(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current);
-	void render(sf::RenderTarget* target, bool visible);
+	void update(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current, float volume);
+
+	void render(sf::RenderTarget* target, bool hudVisible, bool soundVisible);
 };
 
