@@ -41,7 +41,7 @@ public:
 	sf::FloatRect getUnclickableGlobalBounds();
 
 	void updateText(float current);
-	void updateVolume(float volume);
+	void updateVolume(sf::RenderWindow*, float volume);
 	void updateBar(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current);
 	void update(sf::RenderWindow* window, VLC::MediaPlayer* mp, float current, float volume);
 

@@ -1,12 +1,14 @@
-
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #include "VideoPlayer.h"
 
 int main(int argc, char* argv[])
 {
+
 	std::string path;
 	if (argc < 2)
-		return 0;
-
+	{
+		return -1;
+	}
 
 	sf::Font font;
 	std::stringstream fontdir;
@@ -18,8 +20,11 @@ int main(int argc, char* argv[])
 	font.loadFromFile(fontdirend.str());
 
 
+
 	VideoPlayer* VP;
 	VP = new VideoPlayer(argv[1], &font);
+
+
 
 	while (VP != nullptr)
 	{

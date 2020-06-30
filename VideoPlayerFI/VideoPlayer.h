@@ -35,7 +35,7 @@ private:
 	bool mousePressed;
 
 	int volume;
-	int fps = 60;
+	int fps;
 	
 	float mouseVisibleTimerMax;
 	float mouseVisibleTimer;
@@ -49,6 +49,7 @@ private:
 	float fullscreenClickTimer;
 	bool fullscreen;
 
+	sf::Clock Clock;
 
 	void initVariables();
 	void initWindow();

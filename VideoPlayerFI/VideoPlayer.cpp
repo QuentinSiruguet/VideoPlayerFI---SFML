@@ -5,15 +5,17 @@ void VideoPlayer::initVariables()
 {
 	this->keyPressed = false;
 	this->volume = 35;
+	this->fps = 60;
+
 	this->fullscreenClickTimerMax = 30.f;
 	this->fullscreenClickTimer = this->fullscreenClickTimerMax;
 	this->fullscreen = false;
 
-	this->mouseVisibleTimerMax = 150.f;
+	this->mouseVisibleTimerMax = 120.f;
 	this->mouseVisibleTimer = 0.f;
 	this->hudVisible = true;
 
-	this->soundVisibleTimerMax = 150.f;
+	this->soundVisibleTimerMax = 120.f;
 	this->soundVisibleTimer = 0.f;
 	this->soundVisible = true;
 }
@@ -23,6 +25,7 @@ void VideoPlayer::initWindow()
 	this->videoMode = sf::VideoMode(this->mediaSize.x, this->mediaSize.y);
 	this->window = new sf::RenderWindow(this->videoMode, this->path, sf::Style::Close);
 	this->window->setFramerateLimit(fps);
+	this->window->setVerticalSyncEnabled(false);
 }
 
 void VideoPlayer::initVLCLIB()
@@ -264,12 +267,9 @@ void VideoPlayer::updateInputFullscreen()
 void VideoPlayer::update()
 {
 	this->pollEvents();
-
-	this->updateInputFullscreen();
-
-
 	this->texture.update(this->e_frame);
 
+	this->updateInputFullscreen();
 	this->updateVolumePercent();
 	this->updateMouseVisible();
 
@@ -288,4 +288,7 @@ void VideoPlayer::render()
 
 	this->window->display();
 
+	//std::cout << std::fixed << (int)(1/ Clock.restart().asSeconds()) << std::endl;
+	
+	
 }
