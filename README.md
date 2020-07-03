@@ -18,8 +18,7 @@ How To :
 Why this project is not viable :
 
   - Allo la conso
-
-                  SFML wrapper  |     VLC-Only
-                 ---------------|---------------
-Processor used :        ~20 %   |       ~3 % 
-                                |
+Precessor used comparison :
+| SFML wrapper  |   VLC-Only    |
+| ------------- | ------------- |
+|    ~20 %      |     ~3 %      |
