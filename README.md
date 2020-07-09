@@ -19,7 +19,7 @@ Why this project is not viable :
 
   - Allo la conso
   
-Precessor used comparison :
+Processor used comparison :
 
 |SFML wrapper|VLC-Only|
 |-------------|-------------|
