@@ -1,4 +1,4 @@
-# VideoPlayerFI
+# VideoPlayerFI - SFML
 
 Goal :
   - New Video Player
