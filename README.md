@@ -2,7 +2,7 @@
 
 Goal :
   - New Video Player
-  - Frame Interpolation integration
+  - Frame Interpolation integration (Unrealistic, VP must be done with Qt not SFML)
 
 
 Used :
