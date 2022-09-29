@@ -27,3 +27,9 @@ Processor used comparison :
 
 
 ![ezgif-2-c1cedbebbe](https://user-images.githubusercontent.com/54883972/192645593-fe1769f7-fad4-4684-87bf-0e544e428f64.gif)
+
+
+## Used Libraries
+
+https://github.com/SFML/SFML
+https://github.com/videolan/libvlcpp
